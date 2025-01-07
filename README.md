@@ -1,2 +1,3 @@
 # heimdal
-Project to sort photo files
+Project to find, sort and store photo files
+more information to come
