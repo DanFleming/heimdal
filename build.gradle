@@ -3,20 +3,26 @@ plugins {
     id 'application'
 }
 
-group = 'com.heimdal'
-version = '1.0-SNAPSHOT'
-sourceCompatibility = '21'  // or the version of Java you're using
-targetCompatibility = '21'
+version = "0.1"
+group = "com.heimdal"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.apache.commons:commons-io:2.11.0'  // For file handling utilities (optional)
-    testImplementation 'junit:junit:4.13.2'  // For testing purposes
+    implementation 'org.apache.commons:commons-configuration2:2.11.0'
+    testImplementation 'junit:junit:4.13.2'
 }
 
 application {
-    mainClassName = 'com.heimdal.Main'  // Replace with the actual entry point class
+    mainClass.set("com.heimdal.Main")
 }
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21) // Adjust for your Java version
+    }
+}
+
+
