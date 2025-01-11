@@ -13,12 +13,13 @@ public class DuplicateChecker {
 
     private Set<String> fileHashes = new HashSet<>();
 
-    public void checkForDuplicates(List<Path> imageFiles){
+    public void checkForDuplicates(List<Path> imageFiles, DuplicateHandler duplicateHandler){
         for (Path file : imageFiles){
             try{
                 String fileHash = generateFileHash(file);
                 if(fileHashes.contains(fileHash)) {
                     System.out.println("Duplicate found: " + file);
+                    duplicateHandler.handleDuplicate(file);
                 } else {
                     fileHashes.add(fileHash);
                     System.out.println("Unique file: " + file);
