@@ -10,19 +10,22 @@ public class UndoMove {
 
     private ImageFileHandler imageFileHandler;
 
-    public UndoMove(ImageFileHandler imageFileHandler){
+    public UndoMove(ImageFileHandler imageFileHandler, String originalLocationsFilePath) throws IOException {
         this.imageFileHandler = imageFileHandler;
+        imageFileHandler.loadOriginalLocationsFromFile(originalLocationsFilePath);
     }
 
     public void undoMove(){
-        for(Map.Entry<Path, Path> entry : imageFileHandler.getOriginalLocations().entrySet()){
-            Path originalLocation = entry.getKey();
-            Path movedLocation = entry.getValue();
+        Map<Path, Path> originalLocations = imageFileHandler.getOriginalLocations();
 
-            try{
+        for(Map.Entry<Path, Path> entry : originalLocations.entrySet()){
+            Path movedLocation = entry.getKey();
+            Path originalLocation = entry.getValue();
+
+            try {
                 Files.move(movedLocation, originalLocation, StandardCopyOption.REPLACE_EXISTING);
-                System.out.println("Moved file back to: " + originalLocation);
-            } catch (IOException e){
+                System.out.println("File moved back to " + originalLocation);
+            } catch(IOException e){
                 e.printStackTrace();
             }
         }

@@ -1,12 +1,13 @@
 package com.heimdal;
 
-import java.nio.file.Path;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args){
         String directoryPath = "C:/Users/Dan/Desktop/AssessedImages";
         String duplicatesLogFilePath = "C:/Users/Dan/Desktop/duplicates.txt";
         String duplicatesFolderPath = "C:/Users/Dan/Desktop/DuplicateImages";
+        String originalLocationsFilePath = "C:/Users/Dan/Desktop/originalLocations.csv";
 
         FileScanner scanner = new FileScanner();
         DuplicateChecker checker = new DuplicateChecker();
@@ -18,8 +19,18 @@ public class Main {
         checker.checkForDuplicates(imageHandler.getImageFiles(), duplicateHandler);
         mover.moveFiles(imageHandler.getImageFiles());
 
+        try {
+            imageHandler.saveOriginalLocationsToFile(originalLocationsFilePath);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
         //Uncomment below to reverse the process
-        //UndoMove undoMove = new UndoMove(imageHandler);
-        //undoMove.undoMove();
+//        try {
+//            UndoMove undoMove = new UndoMove(imageHandler, originalLocationsFilePath);
+//            undoMove.undoMove();
+//        } catch(IOException e){
+//            e.printStackTrace();
+//        }
     }
 }
