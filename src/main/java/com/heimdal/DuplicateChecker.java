@@ -19,7 +19,7 @@ public class DuplicateChecker {
                 String fileHash = generateFileHash(file);
                 if(fileHashes.contains(fileHash)) {
                     System.out.println("Duplicate found: " + file);
-                    duplicateHandler.handleDuplicate(file);
+                    duplicateHandler.handleDuplicate(file, fileHash);
                 } else {
                     fileHashes.add(fileHash);
                     System.out.println("Unique file: " + file);

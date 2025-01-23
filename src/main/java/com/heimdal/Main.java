@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args){
-        String directoryPath = "C:/Users/Dan/Desktop/AssessedImages";
+        String directoryPath = "C:/Users/Dan/Desktop/Pics";
         String duplicatesLogFilePath = "C:/Users/Dan/Desktop/duplicates.txt";
         String duplicatesFolderPath = "C:/Users/Dan/Desktop/DuplicateImages";
         String originalLocationsFilePath = "C:/Users/Dan/Desktop/originalLocations.csv";

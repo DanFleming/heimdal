@@ -9,6 +9,7 @@ public class DuplicateHandler{
     private String duplicatesLogFilePath;
     private Path duplicatesDirectory;
     private Set<String> processedFiles;
+    private Set<String> processedFileHashes = new HashSet<>();
 
     public DuplicateHandler(String duplicatesLogFilePath, String duplicatesFolderPath){
         this.duplicatesLogFilePath = duplicatesLogFilePath;
@@ -25,13 +26,13 @@ public class DuplicateHandler{
         }
     }
 
-    public void handleDuplicate(Path file){
+    public void handleDuplicate(Path file, String fileHash){
         try {
-            if(processedFiles.contains(file.toString())){
+            if(processedFiles.contains(fileHash)){
                 moveDuplicateToFolder(file);
                 logDuplicate(file);
             } else {
-                processedFiles.add(file.toString());
+                processedFiles.add(fileHash);
             }
         } catch (IOException e){
             System.err.println("Error while processing file: " + e.getMessage());
@@ -40,8 +41,18 @@ public class DuplicateHandler{
 
     private void moveDuplicateToFolder(Path file) throws IOException {
         Path destination = duplicatesDirectory.resolve(file.getFileName());
-        Files.move(file, destination, StandardCopyOption.REPLACE_EXISTING);
-        System.out.println("Moved duplicate to: " + destination);
+        System.out.println("Attempting to move: " + file + " to " + destination);
+
+        if(Files.exists(destination)){
+            System.out.println("File already exists at destination " + destination);
+        }
+        try {
+            Files.move(file, destination, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Moved duplicate to: " + destination);
+        } catch (IOException e){
+            System.err.println("Failed to move file: " + e.getMessage());
+            throw e;
+        }
     }
 
     private void logDuplicate(Path file) throws IOException {
